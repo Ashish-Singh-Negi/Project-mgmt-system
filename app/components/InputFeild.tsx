@@ -27,14 +27,14 @@ const InputFeild = ({
 
   return (
     <>
-      <div className={`relative h-10 w-full ${width}`}>
+      <div className={`relative h-10 w-72 ${width}`}>
         {confirm ? (
           <input
             value={number!}
             required
             type={inputType}
             placeholder={inputPlaceholder}
-            className={`h-10 w-full ${width} outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all ${
+            className={`h-10 w-full outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all ${
               confirm && "cursor-not-allowed"
             }`}
             disabled
@@ -46,7 +46,7 @@ const InputFeild = ({
             required
             type={inputType}
             placeholder={inputPlaceholder}
-            className={`h-10 w-full ${width} outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all ${
+            className={`h-10 w-full outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all ${
               confirm && "cursor-not-allowed"
             }`}
           />

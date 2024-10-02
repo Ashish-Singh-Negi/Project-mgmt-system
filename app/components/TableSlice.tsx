@@ -7,8 +7,10 @@ import toast from "react-hot-toast";
 
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
 
+import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+
 const TableSlice = ({
-  col,
   id,
   guide,
   semester,
@@ -21,7 +23,6 @@ const TableSlice = ({
   hodSign,
   createdAt,
 }: {
-  col: 3 | 4 | 5;
   guide?: string;
   role: "Guide" | "Coordinator" | "HOD" | null;
   id?: string;
@@ -94,10 +95,12 @@ const TableSlice = ({
 
   return (
     <>
-      {col === 3 ? (
-        <div className="h-14 w-full flex items-center border-b-2 box-border">
-          <p className="w-[20%] text-center">{dateIs}</p>
-          <p className="w-[60%] text-center">{report}</p>
+      {role === "Guide" && guide === adminInfo?.username && (
+        <div className="h-fit w-full flex items-center border-b-2 box-border py-2">
+          <p className="w-[5%] text-center">{groupNo}</p>
+          <p className="w-[5%] text-center">{semester}</p>
+          <p className="w-[15%] text-center">{dateIs}</p>
+          <p className="w-[55%] text-center">{report}</p>
           <p className="w-[20%] text-center">
             <button
               onClick={() => setGuideSignIs(true)}
@@ -105,109 +108,112 @@ const TableSlice = ({
                 guideSignIs
                   ? "bg-green-500 cursor-not-allowed"
                   : "bg-red-500 active:scale-95"
-              } px-4 py-[2px] rounded-lg text-white  transition-all`}
+              } px-4 py-[2px] rounded-lg text-white  transition-all md:text-base`}
             >
-              {guideSignIs ? "Checked" : "Check"}
+              {guideSignIs ? <FaCheck /> : "Check"}
             </button>
           </p>
         </div>
-      ) : col === 4 ? (
-        <div className="h-14 w-full flex items-center border-b-2 box-border">
+      )}{" "}
+      {role === "Coordinator" && (
+        <div className="h-fit w-full flex items-center border-b-2 box-border py-2">
+          <p className="w-[5%] text-center">{groupNo}</p>
+          <p className="w-[5%] text-center">{semester}</p>
           <p className="w-[15%] text-center">{dateIs}</p>
-          <p className="w-[55%] text-center">{report}</p>
-          <p className="w-[15%] text-center">
-            {guide === adminInfo?.username && role ? (
-              <button
-                onClick={() => setGuideSignIs(true)}
-                className={` ${
-                  guideSignIs
-                    ? "bg-green-500 cursor-not-allowed"
-                    : "bg-red-500 active:scale-95"
-                } px-4 py-[2px] rounded-lg text-white  transition-all`}
-              >
-                {guideSignIs ? "Checked" : "Check"}
-              </button>
-            ) : (
-              <span
-                className={`${
-                  guideSignIs ? "text-green-500" : "text-red-500"
-                } px-4 font-medium py-[2px] rounded-lg transition-all`}
-              >
-                {guideSignIs ? "Checked" : "Not Check"}
-              </span>
-            )}
+          <p className="w-[45%] text-center">{report}</p>
+          <p className="w-[15%] flex justify-center">
+            <span
+              className={`${
+                guideSignIs ? "text-green-500" : "text-red-500"
+              } px-4 font-medium py-[2px] rounded-lg transition-all`}
+            >
+              {guideSignIs ? <FaCheck /> : <ImCross />}
+            </span>
           </p>
-          <p className="w-[15%] text-center">
+          <p className="w-[15%] flex justify-center">
             <button
               onClick={() => guideSignIs && setCoordinatorSignIs(true)}
               className={` ${guideSignIs ? "" : "cursor-not-allowed"} ${
                 coordinatorSignIs
                   ? "bg-green-500 cursor-not-allowed"
                   : "bg-red-500"
-              } px-4 py-[2px] rounded-lg text-white transition-all`}
+              } px-4 py-[2px] rounded-lg text-white transition-all md:text-base`}
             >
-              {coordinatorSignIs ? "Checked" : "Check"}
+              {coordinatorSignIs ? <FaCheck /> : "Check"}
             </button>
           </p>
         </div>
-      ) : (
-        <div className="h-14 w-full flex items-center border-b-2 box-border">
+      )}
+      {role === "HOD" && (
+        <div className="h-fit w-full flex items-center border-b-2 box-border py-2">
+          <p className="w-[5%] text-center">{groupNo}</p>
+          <p className="w-[5%] text-center">{semester}</p>
           <p className="w-[15%] text-center">{dateIs}</p>
-          <p className="w-[40%] text-center">{report}</p>
-          <p className="w-[15%] text-center">
-            {guide === adminInfo?.username && role ? (
-              <button
-                onClick={() => setGuideSignIs(true)}
-                className={` ${
-                  guideSignIs
-                    ? "bg-green-500 cursor-not-allowed"
-                    : "bg-red-500 active:scale-95"
-                } px-4 py-[2px] rounded-lg text-white  transition-all`}
-              >
-                {guideSignIs ? "Checked" : "Check"}
-              </button>
-            ) : (
-              <span
-                className={`${
-                  guideSignIs ? "text-green-500" : "text-red-500"
-                } px-4 font-medium py-[2px] rounded-lg transition-all`}
-              >
-                {guideSignIs ? "Checked" : "Not Check"}
-              </span>
-            )}
+          <p className="w-[45%] text-center">{report}</p>
+          <p className="w-[10%] flex justify-center">
+            <span
+              className={`${
+                guideSignIs ? "text-green-500" : "text-red-500"
+              } px-4 font-medium py-[2px] rounded-lg transition-all`}
+            >
+              {guideSignIs ? <FaCheck /> : <ImCross />}
+            </span>
           </p>
-          <p className="w-[15%] text-center">
+          <p className="w-[10%] flex justify-center">
             <span
               className={` ${
                 coordinatorSignIs ? "text-green-500" : "text-red-500"
               } px-4 font-medium py-[2px] rounded-lg transition-all`}
             >
-              {coordinatorSignIs ? "Checked" : "Not Check"}
+              {coordinatorSignIs ? <FaCheck /> : <ImCross />}
             </span>
           </p>
-          <p className="w-[15%] text-center">
-            {role === "HOD" ? (
-              <button
-                onClick={() =>
-                  guideSignIs && coordinatorSignIs && setHodSignIs(true)
-                }
-                className={` ${
-                  guideSignIs && coordinatorSignIs ? "" : "cursor-not-allowed"
-                } ${
-                  hodSignIs ? "bg-green-500 cursor-not-allowed" : "bg-red-500"
-                } px-4 py-[2px] rounded-lg text-white transition-all`}
-              >
-                {hodSignIs ? "Checked" : "Check"}
-              </button>
-            ) : (
-              <span
-                className={` ${
-                  hodSignIs ? "text-green-500" : "text-red-500 "
-                } px-4 font-medium py-[2px] rounded-lg transition-all`}
-              >
-                {hodSignIs ? "Checked" : "Not Check"}
-              </span>
-            )}
+          <p className="w-[10%] flex justify-center">
+            <button
+              onClick={() =>
+                guideSignIs && coordinatorSignIs && setHodSignIs(true)
+              }
+              className={` ${
+                guideSignIs && coordinatorSignIs ? "" : "cursor-not-allowed"
+              } ${
+                hodSignIs ? "bg-green-500 cursor-not-allowed" : "bg-red-500"
+              } px-3 py-[2px] rounded-lg text-white transition-all md:text-base`}
+            >
+              {hodSignIs ? <FaCheck /> : "Check"}
+            </button>
+          </p>
+        </div>
+      )}
+      {role === null && (
+        <div className="h-fit w-full flex items-center border-b-2 box-border py-2">
+          <p className="w-[15%] text-center">{dateIs}</p>
+          <p className="w-[40%] text-center">{report}</p>
+          <p className="w-[15%] flex justify-center">
+            <span
+              className={`${
+                guideSignIs ? "text-green-500" : "text-red-500"
+              } px-4 font-medium py-[2px] rounded-lg transition-all`}
+            >
+              {guideSignIs ? <FaCheck /> : <ImCross />}
+            </span>
+          </p>
+          <p className="w-[15%] flex justify-center">
+            <span
+              className={` ${
+                coordinatorSignIs ? "text-green-500" : "text-red-500"
+              } px-4 font-medium py-[2px] rounded-lg transition-all`}
+            >
+              {coordinatorSignIs ? <FaCheck /> : <ImCross />}
+            </span>
+          </p>
+          <p className="w-[15%] flex justify-center">
+            <span
+              className={`${
+                hodSignIs ? "text-green-500" : "text-red-500"
+              } px-4 font-medium py-[2px] rounded-lg transition-all`}
+            >
+              {hodSignIs ? <FaCheck /> : <ImCross />}
+            </span>
           </p>
         </div>
       )}

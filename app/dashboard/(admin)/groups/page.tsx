@@ -10,11 +10,13 @@ import InputFeild from "@/app/components/InputFeild";
 import GroupCard from "./components/GroupCard";
 import AdminDashboardNav from "../components/AdminDashboardNav";
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
+import { useCurrentRoleContext } from "@/context/AdminCurrentRole";
 
 const GroupsInfoPage = () => {
   const { groups } = useGroupsContext();
 
   const { adminInfo } = useAdminInfoContext();
+  const { currentRole } = useCurrentRoleContext();
 
   const [create, setCreate] = useState(false);
 
@@ -62,9 +64,9 @@ const GroupsInfoPage = () => {
       <AdminDashboardNav />
       <main className="h-[880px] w-full flex justify-center">
         <div className="h-full w-full md:w-[80%]">
-          <header className="h-fit w-full flex justify-between items-center">
+          <header className="w-full flex justify-between items-center px-1">
             {" "}
-            <h1 className="text-4xl font-semibold flex items-center justify-between mt-2 mb-4 px-1 text-red-500">
+            <h1 className="text-3xl md:text-4xl font-semibold flex items-center justify-between mt-2 mb-4 text-red-500">
               Groups Info
             </h1>
             <button
@@ -72,7 +74,7 @@ const GroupsInfoPage = () => {
                 setCreate(!create);
                 setGroupNoCount([1]);
               }}
-              className="h-10 px-4 py-1 bg-red-500 rounded-lg font-medium text-white transition-all active:scale-95"
+              className="px-4 py-[6px] text-sm md:text-base bg-red-500 rounded-lg font-medium text-white transition-all active:scale-95"
             >
               {create ? "Cancel" : "Create group"}
             </button>
@@ -125,7 +127,7 @@ const GroupsInfoPage = () => {
                   {groupNoCount?.map((num, i) => (
                     <InputFeild
                       key={`group-${i}`}
-                      width={"md:w-40"}
+                      width={"w-full md:w-40"}
                       inputType={"number"}
                       inputPlaceholder={"group no."}
                       setState={setGroupNos}
@@ -149,20 +151,43 @@ const GroupsInfoPage = () => {
                 </div>
               </form>
             )}
-            {groups?.map((group) => (
-              <GroupCard
-                key={group._id}
-                id={group._id}
-                groupno={group.groupNo}
-                guide={group.guide}
-                branch={group.branch}
-                semester={group.semester}
-                division={group.division}
-                projectTitle={group.projectTitle}
-                students={group.students}
-                totalReports={group.records.length}
-              />
-            ))}
+            {groups?.map((group) => {
+              if (currentRole === "HOD" || currentRole === "Coordinator") {
+                return (
+                  <GroupCard
+                    key={group._id}
+                    id={group._id}
+                    groupno={group.groupNo}
+                    guide={group.guide}
+                    branch={group.branch}
+                    semester={group.semester}
+                    division={group.division}
+                    projectTitle={group.projectTitle}
+                    students={group.students}
+                    totalReports={group.records.length}
+                  />
+                );
+              }
+              if (
+                currentRole === "Guide" &&
+                group.guide === adminInfo?.username
+              ) {
+                return (
+                  <GroupCard
+                    key={group._id}
+                    id={group._id}
+                    groupno={group.groupNo}
+                    guide={group.guide}
+                    branch={group.branch}
+                    semester={group.semester}
+                    division={group.division}
+                    projectTitle={group.projectTitle}
+                    students={group.students}
+                    totalReports={group.records.length}
+                  />
+                );
+              }
+            })}
           </main>
         </div>
       </main>

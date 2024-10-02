@@ -20,7 +20,7 @@ type GuideOf = {
 
 type AdminInfo = {
   username: string;
-  role: string;
+  role: "HOD" | "Coordinator" | "Guide";
   branch: string;
   guideOf: GuideOf[];
 };
@@ -62,7 +62,7 @@ export function useAdminInfoContext() {
 
   if (!context) {
     throw new Error(
-      `useAdminInfoContext must be within a StudentContextProvider`
+      `useAdminInfoContext must be within a AdminContextProvider`
     );
   }
 

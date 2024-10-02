@@ -12,12 +12,14 @@ import { useGroupsContext } from "@/context/GroupsContext";
 import { useStudentInfoContext } from "@/context/StudentProfileContext";
 
 import toast from "react-hot-toast";
+import { useCurrentRoleContext } from "@/context/AdminCurrentRole";
 
 const Header = () => {
   const { push } = useRouter();
 
   const { setAdminInfo } = useAdminInfoContext();
   const { setStudentInfo } = useStudentInfoContext();
+  const { setCurrentRole } = useCurrentRoleContext();
 
   const { setGroupData } = useGroupContext();
   const { setGroups } = useGroupsContext();
@@ -37,14 +39,15 @@ const Header = () => {
 
       toast.success(data.message);
 
-      if (data.profile.role)
+      if (data.profile.role) {
         setAdminInfo({
           username: data.profile.username,
           role: data.profile.role,
           branch: data.profile.branch,
           guideOf: data.profile.guideOf,
         });
-      else
+        setCurrentRole(data.profile.role);
+      } else
         setStudentInfo({
           username: data.profile.username,
           branch: data.profile.branch,

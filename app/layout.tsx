@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+
 import localFont from "next/font/local";
+
 import "./globals.css";
+
+import AdminInfoContextProvider from "@/context/AdminProfileContext";
+import StudentInfoContextProvider from "@/context/StudentProfileContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +33,9 @@ export default function RootLayout({
       <body
         className={`h-dvh w-full ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AdminInfoContextProvider>
+          <StudentInfoContextProvider>{children}</StudentInfoContextProvider>
+        </AdminInfoContextProvider>
       </body>
     </html>
   );

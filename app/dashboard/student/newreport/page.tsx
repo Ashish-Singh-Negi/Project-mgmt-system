@@ -48,21 +48,28 @@ const NewReportPage = () => {
   };
 
   useEffect(() => {
-    setDate(new Date().toLocaleDateString());
+    const date = new Date();
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
+
+    setDate(formattedDate);
   }, []);
 
   return (
-    <div className="h-full w-full md:w-[80%]">
-      <h1 className="text-4xl font-semibold mt-2 mb-4 text-red-400">
+    <div className="h-fit w-full md:w-[80%]">
+      <h1 className="text-4xl font-semibold mt-2 mb-4 text-red-400 px-1">
         Create report
       </h1>
       <form
         onSubmit={createReporthandler}
-        className="h-[340px] w-full px-6 py-4 mt-4 flex flex-col gap-6"
+        className="h-[420px] w-full p-2 md:px-6 md:py-4 mt-4 flex flex-col gap-4"
       >
         <p className="text-2xl font-medium">Date : {date} </p>
-        <div className="h-10 w-full flex items-center gap-4">
-          <p className="text-2xl font-medium">Attendance :</p>
+        <div className="h-fit w-full flex flex-col gap-1 md:flex-row md:items-center md:gap-4">
           {groupData?.students.map((student) => (
             <CheckBtn
               key={`naem-${student.username}`}
@@ -76,7 +83,7 @@ const NewReportPage = () => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="write a report here..."
-          className="h-24 w-full border-2 rounded-md border-red-300 outline-blue-500 transition-all p-2 text-xl font-medium resize-none"
+          className="md:h-24 h-32 w-full border-2 rounded-md border-red-300 outline-blue-500 transition-all p-2 text-base md:text-xl font-medium resize-none"
         ></textarea>
         <div className="flex justify-end">
           <button

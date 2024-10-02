@@ -49,63 +49,63 @@ const GroupInfoPage = () => {
 
   return (
     <div className="h-full w-full md:w-[80%]">
-      <h1 className="text-4xl font-semibold mt-2 mb-4 text-red-400">
+      <h1 className="text-4xl font-semibold mt-2 mb-4 text-red-400 px-1">
         Group Info.
       </h1>
-      <main className="h-fit w-full flex flex-col gap-4 p-6 text-lg font-medium">
-        <p className="w-[300px]  flex gap-4">
-          <span className="w-40">Group no </span>:
+      <main className="h-fit w-full flex flex-col gap-4 p-4 md:p-6 text-base md:text-lg font-medium">
+        <p className="w-[300px] flex gap-4">
+          <span className="w-32">Group no </span>:
           <span>{groupData?.groupNo}</span>
         </p>
-        <form
-          onSubmit={projectTitleHandler}
-          className="w-[500px] flex items-center gap-4"
-        >
-          <span className="w-40">Project Title</span>:
-          {edit ? (
-            <input
-              value={projectTitle}
-              onChange={(e) => setProjectTitle(e.target.value)}
-              className="h-8 w-60 px-1 outline-none rounded-md border-2 border-red-300 text-sm active focus:border-blue-500 transition-all"
-              type="text"
-              placeholder="title"
-            />
-          ) : (
-            <span>{projectTitle}</span>
-          )}
-          {edit ? (
-            <button
-              type="button"
-              onClick={() => setEdit(!edit)}
-              className="px-4 py-1 bg-blue-400 text-white rounded-lg text-sm"
-            >
-              save
-            </button>
-          ) : (
-            <button onClick={() => setEdit(!edit)}>
-              <CiEdit className="cursor-pointer h-5 w-5 text-blue-500 " />
-            </button>
-          )}
+        <form onSubmit={projectTitleHandler} className="w-[340px] flex gap-4">
+          { !edit && <span className="w-32">Project title</span>} :
+          <div className="flex items-center gap-2">
+            {" "}
+            {edit ? (
+              <input
+                value={projectTitle}
+                onChange={(e) => setProjectTitle(e.target.value)}
+                className="h-8 w-40 px-1 outline-none rounded-md border-2 border-red-300 text-sm active focus:border-blue-500 transition-all"
+                type="text"
+                placeholder="title"
+              />
+            ) : (
+              <span>{projectTitle}</span>
+            )}
+            {edit ? (
+              <button
+                type="button"
+                onClick={() => setEdit(!edit)}
+                className="px-4 py-1 bg-blue-400 text-white rounded-lg text-sm"
+              >
+                save
+              </button>
+            ) : (
+              <button onClick={() => setEdit(!edit)}>
+                <CiEdit className="cursor-pointer h-5 w-5 text-blue-500 " />
+              </button>
+            )}
+          </div>
         </form>
         <p className="w-[300px]  flex gap-4">
-          <span className="w-40">Guide </span>:<span>{groupData?.guide}</span>
+          <span className="w-32">Guide </span>:<span>{groupData?.guide}</span>
         </p>
         <p className="w-[300px]  flex gap-4">
-          <span className="w-40">Branch </span>:<span>{groupData?.branch}</span>
+          <span className="w-32">Branch </span>:<span>{groupData?.branch}</span>
         </p>
         <p className="w-[300px]  flex gap-4">
-          <span className="w-40">Semester </span>:
+          <span className="w-32">Semester </span>:
           <span>{groupData?.semester}</span>
         </p>
 
         <p className="w-[300px] mb-2">Students </p>
         <div className="h-fit w-full flex flex-col border-2 border-l-red-500 font-normal">
-          <div className="h-12 w-full border-b-2 flex justify-between items-center px-4 font-medium">
+          <div className="h-12 w-full border-b-2 flex justify-between items-center px-4 font-medium text-sm md:text-lg">
             <p className="h-fit w-[15%]">PID</p>
             <p className="h-fit w-[10%]">Roll no.</p>
-            <p className="h-fit w-[10%]">division</p>
-            <p className="h-fit w-[45%]">Student name</p>
-            <p className="h-fit w-[10%]">Attendance</p>
+            <p className="h-fit w-[10%]">Division</p>
+            <p className="h-fit w-[40%]">Name</p>
+            <p className="h-fit w-[15%]">Attendance</p>
           </div>
           {groupData?.students.map((student) => (
             <AttandenceTableCard

@@ -46,14 +46,14 @@ const GroupReportsPage = () => {
 
   return (
     <div className="h-full w-full md:w-[80%] text-sm md:text-xl">
-      <h1 className="text-4xl font-semibold mt-2 mb-4 text-red-400">
+      <h1 className="text-4xl font-semibold mt-2 mb-4 text-red-400 px-[2px]">
         Group Reports
       </h1>
-      <div className="h-12 w-full border-2 flex items-center border-red-400 font-medium ">
+      <div className="h-12 w-full border-2 flex items-center border-red-400 font-medium">
         <p className="w-[15%] text-center">Date</p>
         <p className="w-[40%] text-center">Report</p>
         <p className="w-[15%] text-center">Guide</p>
-        <p className="w-[15%] text-center">Coordinator</p>
+        <p className="w-[15%] text-center">Coor...</p>
         <p className="w-[15%] text-center">Hod</p>
       </div>
       <main className="h-[740px] w-full overflow-y-auto lg:border-2">
@@ -61,7 +61,6 @@ const GroupReportsPage = () => {
           groupData?.records.map((val) => (
             <TableSlice
               key={val.createdAt}
-              col={5}
               createdAt={val.createdAt}
               report={val.report}
               role={null}
