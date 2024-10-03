@@ -19,8 +19,8 @@ const GroupReportsPage = () => {
     try {
       const { data } = await axios.get(`/api/group/${studentInfo?.semester}`, {
         params: {
-          username: studentInfo?.semester,
           role: null,
+          username: studentInfo?.username,
           branch: studentInfo?.branch,
           division: studentInfo?.division,
           groupNo: studentInfo?.groupNo,

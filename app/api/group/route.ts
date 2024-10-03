@@ -98,6 +98,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           success: true,
+          message: "Groups Found",
           groups: groups,
         },
         {
@@ -380,24 +381,6 @@ export async function DELETE(req: NextRequest) {
       );
 
     const guide = await Admin.findOne({ username: username }).exec();
-
-    // guide.guideOf.map((gr, i) => {
-    //     if (
-    //       gr.branch === branch &&
-    //       gr.semester === semester &&
-    //       gr.division === division
-    //     ) {
-    //       // remove full group details
-    //       if (gr.groupNo.length === 1) guide.guideOf.splice(i, 1);
-
-    //       gr.groupNo.map((num: number, j: number) => {
-    //         if (num === groupNo) {
-    //           // remove particular group no
-    //           gr.groupNo.splice(j, 1);
-    //         }
-    //       });
-    //     }
-    //   });
 
     guide.guideOf = guide.guideOf.filter(
       (gr: {

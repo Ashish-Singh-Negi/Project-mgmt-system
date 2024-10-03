@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import axios from "axios";
-import Link from "next/link";
 
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { useGroupContext } from "@/context/GroupContext";
@@ -58,7 +57,8 @@ const Header = () => {
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.message || "An error occurred");
+        console.log(error.message);
+        toast.error(error.response?.data.message || "An error occured");
       } else {
         console.error(error);
         throw new Error("An Error occured");
@@ -78,7 +78,7 @@ const Header = () => {
       setGroupData(null);
       setGroups(null);
 
-      push(`/`);
+      push("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "An error occurred");
@@ -96,14 +96,12 @@ const Header = () => {
   return (
     <header className="fixed z-10 h-14 w-full bg-white px-1 md:px-4 flex justify-between items-center border-b-2">
       <h1 className="text-3xl font-bold text-red-600">Promanage.</h1>
-      <Link href={"/"}>
-        <button
-          onClick={logoutHandler}
-          className="h-8 w-fit bg-red-500 rounded-2xl active:scale-95 text-white transition-all py-1 px-4 font-medium"
-        >
-          Logout
-        </button>
-      </Link>
+      <button
+        onClick={logoutHandler}
+        className="h-8 w-fit bg-red-500 rounded-2xl active:scale-95 text-white transition-all py-1 px-4 font-medium"
+      >
+        Logout
+      </button>
     </header>
   );
 };

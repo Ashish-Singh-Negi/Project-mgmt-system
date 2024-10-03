@@ -72,7 +72,7 @@ const StudentRegisterPage = () => {
           <input
             value={pid}
             onChange={(e) => setPid(e.target.value)}
-            type="number"
+            type="text"
             placeholder="pid"
             className="h-10 w-72 outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all"
           />

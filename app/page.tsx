@@ -7,7 +7,7 @@ import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { useStudentInfoContext } from "@/context/StudentProfileContext";
 
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const { setAdminInfo } = useAdminInfoContext();
@@ -46,9 +46,7 @@ export default function Home() {
         });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.message || "Unauthorized", {
-          duration: 300,
-        });
+        console.error(error.message);
       } else {
         console.error(error);
         throw new Error("An Error occured");
@@ -62,6 +60,7 @@ export default function Home() {
 
   return (
     <div className="h-full w-full flex justify-center items-center">
+      <Toaster />
       <div className="h-60 w-96 border-2 border-red-300 rounded-md flex flex-col items-center gap-6 font-medium">
         <h1 className="text-red-600 font-bold text-4xl mt-5 mb-3">Promanage</h1>
         <Link href={"/student/login"}>
