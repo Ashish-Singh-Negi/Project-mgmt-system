@@ -5,34 +5,69 @@ import React, { useState } from "react";
 import { Student } from "@/lib/types";
 
 import AttandenceTableCard from "../../../../components/AttandenceTableCard";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useAdminInfoContext } from "@/context/AdminProfileContext";
+import { useRouter } from "next/navigation";
 
 const GroupCard = ({
-  groupno,
+  groupNo,
   guide,
   branch,
   semester,
   division,
   projectTitle,
   students,
-  totalReports
+  totalReports,
 }: {
   id: string;
-  groupno: number;
+  groupNo: number;
   guide: string;
   branch: string;
   semester: number;
   division: string;
   projectTitle: string;
   students: Student[];
-  totalReports:number
+  totalReports: number;
 }) => {
   const [showmore, setShowmore] = useState(false);
+
+  const { adminInfo } = useAdminInfoContext();
+
+  const { push } = useRouter();
+
+  const deleteGroupHandler = async () => {
+    try {
+      const { data } = await axios.delete(`/api/group`, {
+        params: {
+          username: adminInfo?.username,
+          branch: branch,
+          semester: semester,
+          division: division,
+          groupNo: groupNo,
+        },
+      });
+
+      console.log(data);
+
+      toast.success(data.message);
+
+      push(`/dashboard/${adminInfo?.role.toLocaleLowerCase()}`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      } else {
+        console.error(error);
+        throw new Error("An error occured");
+      }
+    }
+  };
 
   return (
     <div className={`h-fit w-full p-2 transition-all`}>
       <div className="h-full w-full flex gap-2 md:gap-4 rounded-lg">
         <div className="min-h-full w-fit rounded-l-md px-6 bg-red-500 flex justify-center items-center text-2xl md:text-3xl">
-          <p className="text-white">{groupno}</p>
+          <p className="text-white">{groupNo}</p>
         </div>
         <div className="h-full w-full flex flex-col gap-2 justify-center p-2">
           <p className="w-[360px] flex items-center gap-4">
@@ -97,6 +132,14 @@ const GroupCard = ({
             <p className="text-red-400">
               No Student have register to group yet
             </p>
+          )}
+          {adminInfo?.username === guide && (
+            <button
+              onClick={() => deleteGroupHandler()}
+              className="w-fit text-white rounded-md bg-red-500 px-3 active:scale-95 transition-all"
+            >
+              Delete
+            </button>
           )}
         </div>
       </div>

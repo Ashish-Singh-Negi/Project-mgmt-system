@@ -26,7 +26,7 @@ const calculateTime = (currentTime: number, lastRecordTimeIs: number) => {
 };
 
 export async function POST(req: NextRequest) {
-  // const { user } = req.info;
+
   const { username, attendance, content, branch, semester, division, groupNo } =
     await req.json();
 

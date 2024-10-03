@@ -64,7 +64,7 @@ const GuideLoginPage = () => {
         Login
       </button>
       <p className="-mt-2 font-medium">
-        new student?
+        new admin?
         <Link href={"register"} className="text-blue-600">
           create account
         </Link>

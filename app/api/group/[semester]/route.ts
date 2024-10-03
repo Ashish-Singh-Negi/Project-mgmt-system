@@ -102,7 +102,7 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
     if (!groups.length)
       return NextResponse.json(
         {
-          message: `No Group found with no. ${groupNo} semester ${semester} branch ${branch}`,
+          message: `Group Not Found`,
         },
         {
           status: 404,
@@ -112,6 +112,7 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
     return NextResponse.json(
       {
         success: true,
+        message: "Group Found",
         groups: groups,
       },
       {

@@ -6,23 +6,31 @@ const InputFeild = ({
   width,
   inputType,
   inputPlaceholder,
-  setState,
+  checkGroupNumberExistOrNot,
 }: {
   width: string;
   inputType: string;
   inputPlaceholder: string;
-  setState: React.Dispatch<React.SetStateAction<number[]>>;
+  checkGroupNumberExistOrNot: (number: number) => Promise<boolean>;
 }) => {
   const [number, setNumber] = useState("");
   const [confirm, setConfirm] = useState(false);
 
-  useEffect(() => {
-    if (number) {
+  const checkGroupNumber = async () => {
+    const result = await checkGroupNumberExistOrNot(parseInt(number));
+
+    if (!result) {
+      setConfirm(false);
+      return;
     }
-  }, [number]);
+
+    setConfirm(true);
+  };
 
   useEffect(() => {
-    if (number) setState((prev) => [...prev, parseInt(number)]);
+    if (number) {
+      checkGroupNumber();
+    }
   }, [confirm]);
 
   return (

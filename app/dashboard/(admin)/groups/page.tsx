@@ -26,6 +26,37 @@ const GroupsInfoPage = () => {
   const [groupNos, setGroupNos] = useState<number[]>([]);
   const [groupNoCount, setGroupNoCount] = useState<number[]>([1]);
 
+  const checkGroupNumberExistOrNot = async (
+    number: number
+  ): Promise<boolean> => {
+    try {
+      const { data } = await axios.get(`/api/group/check`, {
+        params: {
+          branch: adminInfo?.branch,
+          semester,
+          division,
+          groupNo: number,
+        },
+      });
+
+      console.log(data);
+
+      toast.success(data.message);
+
+      setGroupNos((prev) => [...prev, number]);
+
+      return data.success;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+        return error.response?.data.success;
+      } else {
+        console.error(error);
+        throw new Error("An error occured");
+      }
+    }
+  };
+
   const createNewGrouphandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -91,6 +122,7 @@ const GroupsInfoPage = () => {
                       Semester
                     </label>
                     <select
+                      value={semester}
                       onChange={(e) => setSemester(e.target.value)}
                       id="semester"
                       className="h-8 w-full md:w-40 outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all"
@@ -111,6 +143,7 @@ const GroupsInfoPage = () => {
                       Division
                     </label>
                     <select
+                      value={division}
                       onChange={(e) => setDivision(e.target.value)}
                       id="Division"
                       className="h-8 w-full md:w-40 outline-none border-2 border-red-200 focus:border-blue-400 px-2 rounded-md transition-all"
@@ -130,13 +163,14 @@ const GroupsInfoPage = () => {
                       width={"w-full md:w-40"}
                       inputType={"number"}
                       inputPlaceholder={"group no."}
-                      setState={setGroupNos}
+                      checkGroupNumberExistOrNot={checkGroupNumberExistOrNot}
                     />
                   ))}
                   <button
-                    onClick={() =>
-                      setGroupNoCount((prev) => [...prev, groupNos.length])
-                    }
+                    onClick={() => {
+                      if (groupNoCount.length < 5)
+                        setGroupNoCount((prev) => [...prev, groupNos.length]);
+                    }}
                     type="button"
                     className="h-10 w-full md:w-48 bg-blue-400 hover:bg-blue-500 rounded-md active:scale-95 text-white transition-all"
                   >
@@ -157,7 +191,7 @@ const GroupsInfoPage = () => {
                   <GroupCard
                     key={group._id}
                     id={group._id}
-                    groupno={group.groupNo}
+                    groupNo={group.groupNo}
                     guide={group.guide}
                     branch={group.branch}
                     semester={group.semester}
@@ -176,7 +210,7 @@ const GroupsInfoPage = () => {
                   <GroupCard
                     key={group._id}
                     id={group._id}
-                    groupno={group.groupNo}
+                    groupNo={group.groupNo}
                     guide={group.guide}
                     branch={group.branch}
                     semester={group.semester}

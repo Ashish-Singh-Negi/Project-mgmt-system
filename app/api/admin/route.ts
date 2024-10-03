@@ -166,8 +166,6 @@ export async function POST(req: NextRequest) {
         );
     }
 
-    //TODO: write check for group no too
-
     // Create and store new group document
     if (guideOf) {
       guideOf?.groupNo?.map((num: number) => {
@@ -196,7 +194,12 @@ export async function POST(req: NextRequest) {
       password: hashPwd,
       role,
       branch,
-      guideOf,
+      guideOf: {
+        branch: branch,
+        semester: guideOf.semester,
+        division: guideOf.division,
+        groupNo: guideOf.groupNo,
+      },
     };
 
     // create and store new Guide , Cooordinator Or HOD

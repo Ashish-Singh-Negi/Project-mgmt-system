@@ -19,6 +19,37 @@ const TeacherRegisterPage = () => {
 
   const { push } = useRouter();
 
+  const checkGroupNumberExistOrNot = async (
+    number: number
+  ): Promise<boolean> => {
+    try {
+      const { data } = await axios.get(`/api/group/check`, {
+        params: {
+          branch,
+          semester,
+          division,
+          groupNo: number,
+        },
+      });
+
+      console.log(data);
+
+      toast.success(data.message);
+
+      setGroupNo((prev) => [...prev, number]);
+
+      return data.success;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+        return error.response?.data.success;
+      } else {
+        console.error(error);
+        throw new Error("An error occured");
+      }
+    }
+  };
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -129,7 +160,7 @@ const TeacherRegisterPage = () => {
           width={"md:w-[600px]"}
           inputType={"number"}
           inputPlaceholder={"group no."}
-          setState={setGroupNo}
+          checkGroupNumberExistOrNot={checkGroupNumberExistOrNot}
         />
       ))}
       <button

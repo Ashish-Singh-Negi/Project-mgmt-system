@@ -120,8 +120,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  // const { user, branch, role } = req.info;
-
   const { username, role, branch, semester, division, groupNos } =
     await req.json();
 
@@ -220,7 +218,6 @@ export async function POST(req: NextRequest) {
 
 // Update Group Report check Status
 export async function PUT(req: NextRequest) {
-  // const { user, role, branch } = req.info;
   const {
     username,
     role,
@@ -337,9 +334,13 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  // const { user } = req.info;
+  const { searchParams } = req.nextUrl;
 
-  const { username, branch, semester, division, groupNo } = await req.json();
+  const username = searchParams.get("username");
+  const branch = searchParams.get("branch");
+  const semester = searchParams.get("semester");
+  const division = searchParams.get("division");
+  const groupNo = searchParams.get("groupNo");
 
   if (!groupNo || !branch || !semester || !division)
     return NextResponse.json(
@@ -359,6 +360,8 @@ export async function DELETE(req: NextRequest) {
       division,
       groupNo,
     }).exec();
+
+    console.log("Group : ", group);
 
     if (!group)
       return NextResponse.json(
@@ -382,6 +385,16 @@ export async function DELETE(req: NextRequest) {
 
     const guide = await Admin.findOne({ username: username }).exec();
 
+    if (!guide)
+      return NextResponse.json(
+        {
+          message: `Guide ${username} Not found`,
+        },
+        {
+          status: 404,
+        }
+      );
+
     guide.guideOf = guide.guideOf.filter(
       (gr: {
         branch: string;
@@ -391,16 +404,19 @@ export async function DELETE(req: NextRequest) {
       }) => {
         if (
           gr.branch === branch &&
-          gr.semester === semester &&
+          gr.semester === parseInt(semester) &&
           gr.division === division
         ) {
           // Remove the groupNo from the array
-          gr.groupNo = gr.groupNo.filter((num: number) => num !== groupNo);
-          return gr.groupNo.length > 0; // Keep the group if it still has group numbers
+          gr.groupNo = gr.groupNo.filter(
+            (num: number) => num !== parseInt(groupNo)
+          );
         }
         return true; // Keep other groups
       }
     );
+
+    console.log(guide.guideOf);
 
     const result = await group.deleteOne();
 
@@ -419,7 +435,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: `Deleted Group number ${groupNo}`,
+        message: `Deleted Group ${groupNo}`,
       },
       {
         status: 200,
@@ -428,10 +444,11 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       {
+        success: false,
         message: error,
       },
       {
-        status: 400,
+        status: 404,
       }
     );
   }
