@@ -22,7 +22,10 @@ const AttandenceTableCard = ({
       <p className="h-fit w-[10%]">{division}</p>
       <p className="h-fit w-[40%]">{username}</p>
       <p className="h-fit w-[15%]">
-        {((attendance / totalAttendance) * 100).toFixed(2)}%
+        {attendance !== 0
+          ? ((attendance / totalAttendance) * 100).toFixed(2)
+          : 0}
+        %
       </p>
     </div>
   );

@@ -41,7 +41,7 @@ const GroupSchema = new Schema(
     },
     students: [
       {
-        pid: Number,
+        pid: String,
         rollNo: Number,
         division: String,
         username: String,
