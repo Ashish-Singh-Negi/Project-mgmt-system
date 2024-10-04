@@ -4,26 +4,26 @@ import Group from "@/models/Group";
 
 import { Student } from "@/lib/types";
 
-const oneSecondInMs = 1000;
-const oneMinuteInMs = 60 * oneSecondInMs;
-const oneHourInMs = 60 * oneMinuteInMs;
-const oneDayInMs = 24 * oneHourInMs;
+// const oneSecondInMs = 1000;
+// const oneMinuteInMs = 60 * oneSecondInMs;
+// const oneHourInMs = 60 * oneMinuteInMs;
+// const oneDayInMs = 24 * oneHourInMs;
 
-const calculateTime = (currentTime: number, lastRecordTimeIs: number) => {
-  const time = currentTime - lastRecordTimeIs;
+// const calculateTime = (currentTime: number, lastRecordTimeIs: number) => {
+//   const time = currentTime - lastRecordTimeIs;
 
-  const timeIs = oneDayInMs - time;
+//   const timeIs = oneDayInMs - time;
 
-  if (timeIs < oneMinuteInMs) {
-    return `${Math.round(timeIs / oneSecondInMs)} second`;
-  }
-  if (timeIs < oneHourInMs) {
-    return `${Math.round(timeIs / oneMinuteInMs)} minute`;
-  }
-  if (timeIs < oneDayInMs) {
-    return `${Math.round(timeIs / oneHourInMs)} hour`;
-  }
-};
+//   if (timeIs < oneMinuteInMs) {
+//     return `${Math.round(timeIs / oneSecondInMs)} second`;
+//   }
+//   if (timeIs < oneHourInMs) {
+//     return `${Math.round(timeIs / oneMinuteInMs)} minute`;
+//   }
+//   if (timeIs < oneDayInMs) {
+//     return `${Math.round(timeIs / oneHourInMs)} hour`;
+//   }
+// };
 
 export async function POST(req: NextRequest) {
 
