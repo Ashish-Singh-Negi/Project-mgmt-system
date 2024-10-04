@@ -73,25 +73,25 @@ export async function POST(req: NextRequest) {
       );
 
     // Check time of last group record
-    if (group.records.length) {
-      const lastRecordTime = group.records[group.records.length - 1].createdAt;
-      const lastRecordTimeIs = new Date(lastRecordTime).getTime();
+    // if (group.records.length) {
+    //   const lastRecordTime = group.records[group.records.length - 1].createdAt;
+    //   const lastRecordTimeIs = new Date(lastRecordTime).getTime();
 
-      const currentTime = new Date().getTime();
+    //   const currentTime = new Date().getTime();
 
-      if (currentTime - lastRecordTimeIs < oneDayInMs) {
-        const timeLeft = calculateTime(currentTime, lastRecordTimeIs);
+    //   if (currentTime - lastRecordTimeIs < oneDayInMs) {
+    //     const timeLeft = calculateTime(currentTime, lastRecordTimeIs);
 
-        return NextResponse.json(
-          {
-            message: `New report can be added after ${timeLeft}`,
-          },
-          {
-            status: 400,
-          }
-        );
-      }
-    }
+    //     return NextResponse.json(
+    //       {
+    //         message: `New report can be added after ${timeLeft}`,
+    //       },
+    //       {
+    //         status: 400,
+    //       }
+    //     );
+    //   }
+    // }
 
     // passing new report to group records
     group.records.push({

@@ -4,11 +4,14 @@ import React, { useState } from "react";
 
 import { Student } from "@/lib/types";
 
+import { HiArrowTopRightOnSquare } from "react-icons/hi2";
+
 import AttandenceTableCard from "../../../../components/AttandenceTableCard";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const GroupCard = ({
   groupNo,
@@ -103,7 +106,13 @@ const GroupCard = ({
                   <p className="h-fit w-[10%]">Roll no.</p>
                   <p className="h-fit w-[10%]">division</p>
                   <p className="h-fit w-[40%]">Student name</p>
-                  <p className="h-fit w-[15%]">Attendance</p>
+                  <Link
+                    href={`/dashboard/attendance`}
+                    className="h-fit w-[15%] flex items-center gap-1"
+                  >
+                    Attendance
+                    <HiArrowTopRightOnSquare className="text-blue-600" />
+                  </Link>
                 </div>
                 {students.map((student) => (
                   <AttandenceTableCard

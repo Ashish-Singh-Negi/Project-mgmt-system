@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import Link from "next/link";
 
+import image from "@/app/public/undraw_online_stats_0g94.svg";
+
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { useStudentInfoContext } from "@/context/StudentProfileContext";
 
@@ -59,23 +61,28 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-full w-full flex justify-center items-center">
+    <div className="h-full w-full flex justify-center bg-red-500 lg:bg-white items-center">
       <Toaster />
-      <div className="h-60 w-96 border-2 border-red-300 rounded-md flex flex-col items-center gap-6 font-medium">
-        <h1 className="text-red-600 font-bold text-4xl mt-5 mb-3">Promanage</h1>
+      <div className="h-60 w-96 border-2 lg:border-0 bg-white border-red-300 rounded-md flex flex-col items-center justify-center gap-6 font-medium">
+        <h1 className="text-red-600 font-bold text-4xl mb-3">Promanage.</h1>
         <Link href={"/student/login"}>
           <button className="h-10 w-72 bg-red-400 text-white rounded-md active:scale-95 hover:bg-red-500 transition-all">
             {" "}
-            Student login
+            Student
           </button>
         </Link>
         <Link href={"/admin/login"}>
           <button className="h-10 w-72 bg-red-400 text-white rounded-md active:scale-95 hover:bg-red-500 transition-all">
             {" "}
-            Admin login
+            Admin
           </button>
         </Link>
       </div>
+      <img
+        src={image.src}
+        alt=""
+        className="hidden lg:block border-l-2 pl-4 border-black"
+      />
     </div>
   );
 }
