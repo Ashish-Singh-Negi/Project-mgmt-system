@@ -64,6 +64,7 @@ const GroupsInfoPage = () => {
       toast.error("Select Semester");
       return;
     }
+    
     if (!division) {
       toast.error("Select Division");
       return;

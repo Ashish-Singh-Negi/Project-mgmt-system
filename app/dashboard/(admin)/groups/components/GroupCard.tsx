@@ -105,9 +105,9 @@ const GroupCard = ({
                   <p className="h-fit w-[15%]">PID</p>
                   <p className="h-fit w-[10%]">Roll no.</p>
                   <p className="h-fit w-[10%]">division</p>
-                  <p className="h-fit w-[40%]">Student name</p>
+                  <p className="h-fit w-[40%]">Student</p>
                   <Link
-                    href={`/dashboard/attendance`}
+                    href={`/dashboard/attendance?semester=${semester}&division=${division}&groupNo=${groupNo}`}
                     className="h-fit w-[15%] flex items-center gap-1"
                   >
                     Attendance

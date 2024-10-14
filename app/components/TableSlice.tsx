@@ -10,6 +10,18 @@ import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 
+const timestampToDDMMYYYY = (timestamp: string) => {
+  const date = new Date(timestamp);
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Months are zero-based (0 = January)
+  const year = date.getFullYear();
+
+  // Pad single-digit day and month with leading zeros
+  const formattedDay = day.toString().padStart(2, "0");
+  const formattedMonth = month.toString().padStart(2, "0");
+
+  return `${formattedDay}/${formattedMonth}/${year}`;
+};
 const TableSlice = ({
   id,
   guide,
@@ -41,19 +53,6 @@ const TableSlice = ({
   const [hodSignIs, setHodSignIs] = useState(hodSign);
 
   const { adminInfo } = useAdminInfoContext();
-
-  const timestampToDDMMYYYY = (timestamp: string) => {
-    const date = new Date(timestamp);
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // Months are zero-based (0 = January)
-    const year = date.getFullYear();
-
-    // Pad single-digit day and month with leading zeros
-    const formattedDay = day.toString().padStart(2, "0");
-    const formattedMonth = month.toString().padStart(2, "0");
-
-    return `${formattedDay}/${formattedMonth}/${year}`;
-  };
 
   const dateIs = timestampToDDMMYYYY(createdAt);
 

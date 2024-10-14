@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import image from "@/app/public/undraw_online_stats_0g94.svg";
@@ -10,10 +10,13 @@ import { useStudentInfoContext } from "@/context/StudentProfileContext";
 
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import Loader from "./components/Loader";
 
 export default function Home() {
   const { setAdminInfo } = useAdminInfoContext();
   const { setStudentInfo } = useStudentInfoContext();
+
+  const [loading, setLoading] = useState(true);
 
   const getProfile = async () => {
     try {
@@ -53,12 +56,16 @@ export default function Home() {
         console.error(error);
         throw new Error("An Error occured");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getProfile();
   }, []);
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <div className="h-full w-full flex justify-center bg-red-500 lg:bg-white items-center">

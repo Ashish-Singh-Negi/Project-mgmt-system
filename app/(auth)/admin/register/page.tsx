@@ -1,6 +1,7 @@
 "use client";
 
 import InputFeild from "@/app/components/InputFeild";
+import Loader from "@/app/components/Loader";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
@@ -17,6 +18,8 @@ const TeacherRegisterPage = () => {
 
   const [groupNoCount, setGroupNoCount] = useState<number[]>([]);
 
+  const [loading, setLoading] = useState(false);
+
   const { push } = useRouter();
 
   const checkGroupNumberExistOrNot = async (
@@ -31,8 +34,6 @@ const TeacherRegisterPage = () => {
           groupNo: number,
         },
       });
-
-      console.log(data);
 
       toast.success(data.message);
 
@@ -54,6 +55,7 @@ const TeacherRegisterPage = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const { data } = await axios.post(`/api/admin`, {
         username,
         password,
@@ -78,8 +80,11 @@ const TeacherRegisterPage = () => {
         console.error(error);
         throw new Error("An Error occured");
       }
+      setLoading(false);
     }
   };
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <form

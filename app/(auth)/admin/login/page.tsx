@@ -6,16 +6,21 @@ import Link from "next/link";
 
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loader from "@/app/components/Loader";
 
 const GuideLoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const { push } = useRouter();
 
   const submithandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
+
       const { data } = await axios.post(
         `/api/login/admin`,
         {
@@ -37,8 +42,11 @@ const GuideLoginPage = () => {
       } else {
         throw new Error("An error occured");
       }
+      setLoading(false);
     }
   };
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <form

@@ -6,10 +6,13 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import Loader from "@/app/components/Loader";
 
 const StudentLoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const { push } = useRouter();
 
@@ -17,6 +20,7 @@ const StudentLoginPage = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `/api/login/student`,
         {
@@ -38,8 +42,11 @@ const StudentLoginPage = () => {
         console.error(error);
         throw new Error("An Error occured");
       }
+      setLoading(false);
     }
   };
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <form

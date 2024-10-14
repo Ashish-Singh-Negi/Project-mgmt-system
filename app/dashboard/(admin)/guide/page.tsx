@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -10,10 +10,13 @@ import { useGroupsContext } from "@/context/GroupsContext";
 import TableSlice from "@/app/components/TableSlice";
 import AdminDashboardNav from "../components/AdminDashboardNav";
 import TableHead from "@/app/components/TableHead";
+import Loader from "@/app/components/Loader";
 
 const GuideDashboardPage = () => {
   const { adminInfo } = useAdminInfoContext();
   const { groups, setGroups } = useGroupsContext();
+
+  const [loading, setLoading] = useState(true);
 
   const getGroupReports = async (sem: number, div: string, gno: number) => {
     try {
@@ -30,6 +33,8 @@ const GuideDashboardPage = () => {
       toast.success(data.message);
 
       setGroups(data.groups);
+
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "An error occurred");
@@ -50,6 +55,8 @@ const GuideDashboardPage = () => {
     }
   }, [adminInfo]);
 
+  if (loading) return <Loader size="h-32 w-32" />;
+
   return (
     <>
       <AdminDashboardNav />
@@ -62,7 +69,6 @@ const GuideDashboardPage = () => {
           <main className="h-[740px] w-full overflow-y-auto lg:border-2 text-sm md:text-base lg:text-lg">
             {groups?.map((group) =>
               group.records.map((record) => {
-                // if (filter === "All") {
                 return (
                   <TableSlice
                     key={`${record._id}`}

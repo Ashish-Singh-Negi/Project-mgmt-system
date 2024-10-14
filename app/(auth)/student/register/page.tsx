@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loader from "@/app/components/Loader";
 
 const StudentRegisterPage = () => {
   const [pid, setPid] = useState("");
@@ -17,10 +18,13 @@ const StudentRegisterPage = () => {
 
   const { push } = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const { data } = await axios.post(`/api/student`, {
         pid,
         username,
@@ -42,8 +46,11 @@ const StudentRegisterPage = () => {
         console.error(error);
         throw new Error("An Error occured");
       }
+      setLoading(false);
     }
   };
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <form

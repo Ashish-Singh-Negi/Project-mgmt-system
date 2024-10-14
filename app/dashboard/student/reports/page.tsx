@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 
 import axios from "axios";
@@ -10,10 +10,13 @@ import { useStudentInfoContext } from "@/context/StudentProfileContext";
 import { useGroupContext } from "@/context/GroupContext";
 
 import TableSlice from "@/app/components/TableSlice";
+import Loader from "@/app/components/Loader";
 
 const GroupReportsPage = () => {
   const { studentInfo } = useStudentInfoContext();
   const { groupData, setGroupData } = useGroupContext();
+
+  const [loading, setLoading] = useState(true);
 
   const getGroupReports = async () => {
     try {
@@ -30,6 +33,8 @@ const GroupReportsPage = () => {
       toast.success(data.message);
 
       setGroupData(data.group);
+
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "An error occurred");
@@ -43,6 +48,8 @@ const GroupReportsPage = () => {
   useEffect(() => {
     if (studentInfo) getGroupReports();
   }, [studentInfo]);
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <div className="h-full w-full md:w-[80%] text-sm md:text-xl">

@@ -19,12 +19,24 @@ const NewReportPage = () => {
 
   const createReporthandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let attendanceIs: string[] ;
+
+    groupData?.students.forEach((student, i) => {
+      attendanceIs[i] = "";
+      attendance.map((value) => {
+        if (student.username === value) {
+          attendanceIs[i] = value;
+        }
+      });
+    });
+
     try {
       const { data } = await axios.post(
         `/api/group/report`,
         {
           username: studentInfo?.username,
-          attendance,
+          attendance: attendanceIs!,
           content,
           branch: studentInfo?.branch,
           semester: studentInfo?.semester,
@@ -72,7 +84,7 @@ const NewReportPage = () => {
         <div className="h-fit w-full flex flex-col gap-1 md:flex-row md:items-center md:gap-4">
           {groupData?.students.map((student) => (
             <CheckBtn
-              key={`naem-${student.username}`}
+              key={`name-${student.username}`}
               name={student.username}
               setAttendance={setAttendance}
             />

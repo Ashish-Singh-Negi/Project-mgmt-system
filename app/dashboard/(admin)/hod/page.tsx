@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
@@ -11,10 +11,13 @@ import { useCurrentRoleContext } from "@/context/AdminCurrentRole";
 import TableSlice from "@/app/components/TableSlice";
 import AdminDashboardNav from "../components/AdminDashboardNav";
 import TableHead from "@/app/components/TableHead";
+import Loader from "@/app/components/Loader";
 
 const HodDashboardPage = () => {
   const { adminInfo } = useAdminInfoContext();
   const { groups, setGroups } = useGroupsContext();
+
+  const [loading, setLoading] = useState(true);
 
   const { currentRole, setCurrentRole } = useCurrentRoleContext();
 
@@ -30,6 +33,8 @@ const HodDashboardPage = () => {
 
       toast.success(data.message);
       setGroups(data.groups);
+
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toast.error(error.response?.data.message || "An error occurred");
@@ -45,6 +50,8 @@ const HodDashboardPage = () => {
       getAllGroupReports();
     }
   }, [adminInfo]);
+
+  if (loading) return <Loader size="h-32 w-32" />;
 
   return (
     <>
