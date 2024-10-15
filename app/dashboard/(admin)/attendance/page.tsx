@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { useGroupContext } from "@/context/GroupContext";
@@ -53,7 +53,7 @@ const AttendancePage = () => {
   };
 
   return (
-    <>
+    <Suspense>
       <main className="h-[840px] w-full flex justify-center">
         <div className="h-full w-full md:w-[80%]">
           <header className="text-3xl md:text-4xl font-semibold flex items-center justify-between mt-2 mb-4 px-1 text-red-500">
@@ -105,7 +105,7 @@ const AttendancePage = () => {
           </main>
         </div>
       </main>
-    </>
+    </Suspense>
   );
 };
 

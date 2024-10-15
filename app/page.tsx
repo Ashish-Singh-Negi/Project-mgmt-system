@@ -56,7 +56,6 @@ export default function Home() {
         console.error(error);
         throw new Error("An Error occured");
       }
-    } finally {
       setLoading(false);
     }
   };
