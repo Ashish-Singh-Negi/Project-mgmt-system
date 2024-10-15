@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import AdminDashboardNav from "./components/AdminDashboardNav";
 
 export default function AdminDasboardLayout({
@@ -10,7 +12,9 @@ export default function AdminDasboardLayout({
       <div className="h-10 w-full flex justify-evenly items-center">
         <AdminDashboardNav />
       </div>
-      <main className="h-[840px] w-full flex justify-center">{children}</main>
+      <Suspense>
+        <main className="h-[840px] w-full flex justify-center">{children}</main>
+      </Suspense>
     </div>
   );
 }

@@ -4,12 +4,12 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useGroupContext } from "@/context/GroupContext";
+import { useAdminInfoContext } from "@/context/AdminProfileContext";
 
 import AttendenceSlice from "./components/AttendenceSlice";
 import CheckBtn from "../../student/newreport/components/Checkbtn";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import Loader from "@/app/components/Loader";
 
 const AttendancePage = () => {
@@ -41,7 +41,7 @@ const AttendancePage = () => {
         },
       });
 
-      toast.success(data.message);
+      // toast.success(data.message);
 
       setGroupData(data.group);
 
