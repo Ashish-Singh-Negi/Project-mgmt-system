@@ -20,7 +20,7 @@ const NewReportPage = () => {
   const createReporthandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let attendanceIs: string[] ;
+    const attendanceIs: string[] = [];
 
     groupData?.students.forEach((student, i) => {
       attendanceIs[i] = "";
@@ -30,6 +30,8 @@ const NewReportPage = () => {
         }
       });
     });
+
+    console.log(attendanceIs);
 
     try {
       const { data } = await axios.post(

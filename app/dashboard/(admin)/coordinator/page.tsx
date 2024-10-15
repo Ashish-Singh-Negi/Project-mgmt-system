@@ -10,7 +10,6 @@ import { useGroupsContext } from "@/context/GroupsContext";
 import { useCurrentRoleContext } from "@/context/AdminCurrentRole";
 
 import TableSlice from "@/app/components/TableSlice";
-import AdminDashboardNav from "../components/AdminDashboardNav";
 import TableHead from "@/app/components/TableHead";
 import Loader from "@/app/components/Loader";
 
@@ -32,7 +31,7 @@ const CoordinatorDashboardPage = () => {
         },
       });
 
-      toast.success(data.message);
+      // toast.success(data.message);
       setGroups(data.groups);
 
       setLoading(false);
@@ -56,7 +55,6 @@ const CoordinatorDashboardPage = () => {
 
   return (
     <>
-      <AdminDashboardNav />
       <main className="h-[840px] w-full flex justify-center">
         <div className="h-full w-full md:w-[80%]">
           <header className="relative text-2xl md:text-4xl font-semibold flex items-center justify-between mt-2 mb-4 px-1 text-red-500">

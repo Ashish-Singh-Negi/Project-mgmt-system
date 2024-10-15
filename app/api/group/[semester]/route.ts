@@ -24,7 +24,8 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
   const groupNo = searchParams.get("groupNo");
 
   //check for required data
-  if (!groupNo || !branch || !semester || !division)
+
+  if (!branch || !semester || !division)
     return NextResponse.json(
       {
         message: `branch , semester , division and group no. are required`,
@@ -33,6 +34,18 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
         status: 400,
       }
     );
+
+  if (!role) {
+    if (!groupNo)
+      return NextResponse.json(
+        {
+          message: `Group no. are required`,
+        },
+        {
+          status: 400,
+        }
+      );
+  }
 
   try {
     // check for student
@@ -59,7 +72,7 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
       );
 
       if (!result)
-        NextResponse.json(
+        return NextResponse.json(
           {
             message: `You are not member of Group ${groupNo}`,
           },
@@ -90,8 +103,64 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
         }
       );
 
-    const groups = await Group.find({
+    const isGuideOfGroup = await Group.findOne({
       guide: username,
+      branch,
+      semester,
+      division,
+      groupNo,
+    })
+      .lean()
+      .exec();
+
+    if (!isGuideOfGroup)
+      return NextResponse.json(
+        {
+          success: false,
+          message: `${username} ia not Guide of Group ${groupNo}`,
+        },
+        {
+          status: 403,
+        }
+      );
+
+    // Search for 1 group only
+    if (groupNo) {
+      const group = await Group.findOne({
+        guide: username,
+        branch,
+        semester,
+        division,
+        groupNo,
+      })
+        .lean()
+        .exec();
+
+      if (!group)
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Group ${groupNo} not found`,
+          },
+          {
+            status: 404,
+          }
+        );
+
+      return NextResponse.json(
+        {
+          success: true,
+          message: `Group Found`,
+          group: group,
+        },
+        {
+          status: 200,
+        }
+      );
+    }
+
+    // Search for multiple groups
+    const groups = await Group.find({
       branch,
       semester,
       division,

@@ -8,7 +8,6 @@ import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { useGroupsContext } from "@/context/GroupsContext";
 
 import TableSlice from "@/app/components/TableSlice";
-import AdminDashboardNav from "../components/AdminDashboardNav";
 import TableHead from "@/app/components/TableHead";
 import Loader from "@/app/components/Loader";
 
@@ -18,7 +17,7 @@ const GuideDashboardPage = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const getGroupReports = async (sem: number, div: string, gno: number) => {
+  const getGroupReports = async (sem: number, div: string) => {
     try {
       const { data } = await axios.get(`/api/group/${sem}`, {
         params: {
@@ -26,11 +25,10 @@ const GuideDashboardPage = () => {
           branch: adminInfo?.branch,
           role: adminInfo?.role,
           division: div,
-          groupNo: gno,
         },
       });
 
-      toast.success(data.message);
+      // toast.success(data.message);
 
       setGroups(data.groups);
 
@@ -48,9 +46,7 @@ const GuideDashboardPage = () => {
   useEffect(() => {
     if (adminInfo) {
       adminInfo?.guideOf?.map((val) => {
-        val.groupNo.map((num) => {
-          getGroupReports(val.semester, val.division, num);
-        });
+        getGroupReports(val.semester, val.division);
       });
     }
   }, [adminInfo]);
@@ -59,7 +55,6 @@ const GuideDashboardPage = () => {
 
   return (
     <>
-      <AdminDashboardNav />
       <main className="h-[840px] w-full flex justify-center">
         <div className="h-full w-full md:w-[80%]">
           <h1 className="relative text-4xl font-semibold flex items-center justify-between mt-2 mb-4 px-1 text-red-500">

@@ -4,13 +4,12 @@ import React, { FormEvent, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+import { useAdminInfoContext } from "@/context/AdminProfileContext";
+import { useCurrentRoleContext } from "@/context/AdminCurrentRole";
 import { useGroupsContext } from "@/context/GroupsContext";
 
 import InputFeild from "@/app/components/InputFeild";
 import GroupCard from "./components/GroupCard";
-import AdminDashboardNav from "../components/AdminDashboardNav";
-import { useAdminInfoContext } from "@/context/AdminProfileContext";
-import { useCurrentRoleContext } from "@/context/AdminCurrentRole";
 
 const GroupsInfoPage = () => {
   const { groups } = useGroupsContext();
@@ -93,7 +92,6 @@ const GroupsInfoPage = () => {
 
   return (
     <>
-      <AdminDashboardNav />
       <main className="h-[880px] w-full flex justify-center">
         <div className="h-full w-full md:w-[80%]">
           <header className="w-full flex justify-between items-center px-1">

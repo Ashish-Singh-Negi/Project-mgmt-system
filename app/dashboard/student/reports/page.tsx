@@ -30,7 +30,7 @@ const GroupReportsPage = () => {
         },
       });
 
-      toast.success(data.message);
+      // toast.success(data.message);
 
       setGroupData(data.group);
 
