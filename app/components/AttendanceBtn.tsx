@@ -3,12 +3,18 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 
-const CheckBtn = ({
+const AttendanceBtn = ({
   name,
   setAttendance,
+  size,
+  textSize,
+  isCheck,
 }: {
   name: string;
   setAttendance: React.Dispatch<React.SetStateAction<string[]>>;
+  size: string;
+  textSize: string;
+  isCheck: boolean;
 }) => {
   const [check, setCheck] = useState(false);
 
@@ -26,20 +32,24 @@ const CheckBtn = ({
     }
   }, [check]);
 
+  useEffect(() => {
+    setCheck(isCheck);
+  }, []);
+
   return (
     <button
       type="button"
       onClick={() => setCheck(!check)}
-      className={`h-8 w-fit flex items-end gap-2 font-normal `}
+      className={`h-fit w-fit flex items-end gap-2 font-normal`}
     >
       <FaCheckCircle
-        className={`${
+        className={`${size} ${
           check ? "text-blue-500" : "text-gray-500"
-        } cursor-pointer h-5 w-5 mb-1 transition-all`}
+        } cursor-pointer mb-1 transition-all`}
       />
-      <p className="text-xl">{name}</p>
+      <p className={`${textSize}`}>{name}</p>
     </button>
   );
 };
 
-export default CheckBtn;
+export default AttendanceBtn;

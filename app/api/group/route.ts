@@ -5,6 +5,7 @@ import connectToDB from "@/config/connecToDB";
 import Admin from "@/models/Admin";
 import Group from "@/models/Group";
 import { Types } from "mongoose";
+import { Student } from "@/lib/types";
 
 export async function GET(req: NextRequest) {
   await connectToDB();
@@ -229,7 +230,24 @@ export async function PUT(req: NextRequest) {
     guideSign,
     coordinatorSign,
     hodSign,
+    remark,
+    finalAttendance,
   } = await req.json();
+
+  console.log(
+    username,
+    role,
+    branch,
+    id,
+    semester,
+    division,
+    groupNo,
+    guideSign,
+    coordinatorSign,
+    hodSign,
+    remark,
+    finalAttendance
+  );
 
   if (!role || !branch)
     return NextResponse.json(
@@ -289,15 +307,16 @@ export async function PUT(req: NextRequest) {
           }
         );
     }
-    const recordToUpdate = group.records.find(
-      (record: { _id: Types.ObjectId }) => record._id.equals(id)
+
+    const report = group.records.find((record: { _id: Types.ObjectId }) =>
+      record._id.equals(id)
     );
 
-    if (!recordToUpdate) {
+    if (!report) {
       return NextResponse.json(
         {
           success: false,
-          message: "Record not found.",
+          message: "Report not found.",
         },
         {
           status: 404,
@@ -305,9 +324,24 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    recordToUpdate.guideSign = guideSign;
-    recordToUpdate.coordinatorSign = coordinatorSign;
-    recordToUpdate.hodSign = hodSign;
+    report.guideSign = guideSign;
+    report.coordinatorSign = coordinatorSign;
+    report.hodSign = hodSign;
+
+    if (remark) {
+      report.remark = remark;
+    }
+
+    if (finalAttendance.length) {
+      report.attendance = finalAttendance;
+
+      // Update student attendance
+      group.students.forEach((student: Student) => {
+        if (finalAttendance.includes(student.username)) {
+          student.attendance += 1;
+        }
+      });
+    }
 
     await group.save();
 

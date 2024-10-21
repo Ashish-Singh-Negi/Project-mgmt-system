@@ -31,7 +31,6 @@ const CoordinatorDashboardPage = () => {
         },
       });
 
-      // toast.success(data.message);
       setGroups(data.groups);
 
       setLoading(false);
@@ -80,10 +79,10 @@ const CoordinatorDashboardPage = () => {
               </div>
             </div>
           </header>
-          <TableHead role={currentRole!} />
-          <main className="h-[740px] w-full overflow-y-auto lg:border-2 text-sm md:text-xl ">
-            {groups?.map((group) =>
-              group.records.map((record) => {
+          {currentRole !== "Guide" && <TableHead role={currentRole!} />}
+          <main className="h-[760px] w-full text-sm md:text-base lg:text-lg overflow-y-auto">
+            {groups?.map((group) => {
+              return group.records.map((record) => {
                 return (
                   <TableSlice
                     key={`${record._id}`}
@@ -93,6 +92,7 @@ const CoordinatorDashboardPage = () => {
                     groupNo={group.groupNo}
                     role={currentRole}
                     id={record._id}
+                    students={group.students}
                     report={record.report}
                     guideSign={record.guideSign}
                     coordiantorSign={record.coordinatorSign}
@@ -101,8 +101,8 @@ const CoordinatorDashboardPage = () => {
                     attendance={record.attendance}
                   />
                 );
-              })
-            )}
+              });
+            })}
           </main>
         </div>
       </main>

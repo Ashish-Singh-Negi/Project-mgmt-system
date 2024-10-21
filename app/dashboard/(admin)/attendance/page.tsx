@@ -1,15 +1,15 @@
 "use client";
 
-import React, { FormEvent, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
+import axios from "axios";
+import toast from "react-hot-toast";
 
 import { useGroupContext } from "@/context/GroupContext";
 import { useAdminInfoContext } from "@/context/AdminProfileContext";
 
 import AttendenceSlice from "./components/AttendenceSlice";
-import CheckBtn from "../../student/newreport/components/Checkbtn";
-import axios from "axios";
-import toast from "react-hot-toast";
 import Loader from "@/app/components/Loader";
 
 const AttendancePage = () => {
@@ -18,9 +18,6 @@ const AttendancePage = () => {
   const { groupData, setGroupData } = useGroupContext();
   const { adminInfo } = useAdminInfoContext();
 
-  const [add, setAdd] = useState(false);
-
-  const [attendance, setAttendance] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   const searchParams = useSearchParams();
@@ -40,8 +37,6 @@ const AttendancePage = () => {
           groupNo: gno,
         },
       });
-
-      // toast.success(data.message);
 
       setGroupData(data.group);
 
@@ -64,20 +59,20 @@ const AttendancePage = () => {
     getGroup(parseInt(semester), division, parseInt(groupNo));
   }, []);
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    const attendanceIs: string[] = [];
+  //   const attendanceIs: string[] = [];
 
-    groupData?.students.forEach((student, i) => {
-      attendanceIs[i] = "";
-      attendance.map((value) => {
-        if (student.username === value) {
-          attendanceIs[i] = value;
-        }
-      });
-    });
-  };
+  //   groupData?.students.forEach((student, i) => {
+  //     attendanceIs[i] = "";
+  //     attendance.map((value) => {
+  //       if (student.username === value) {
+  //         attendanceIs[i] = value;
+  //       }
+  //     });
+  //   });
+  // };
 
   if (loading) return <Loader size="h-32 w-32" />;
 
@@ -85,15 +80,15 @@ const AttendancePage = () => {
     <main className="h-[840px] w-full flex justify-center">
       <div className="h-full w-full md:w-[80%]">
         <header className="text-3xl md:text-4xl font-semibold flex items-center justify-between mt-2 mb-4 px-1 text-red-500">
-          Attendance
-          <button
-            onClick={() => setAdd(!add)}
+          Attendance Report
+          {/* <button
+            // onClick={() => setAdd(!add)}
             className="px-4 py-[6px] text-sm md:text-base bg-red-500 rounded-lg font-medium text-white transition-all active:scale-95"
           >
             {add ? "Cancel" : "Add"}
-          </button>
+          </button> */}
         </header>
-        {add && (
+        {/* {add && (
           <form
             onSubmit={submitHandler}
             className="h-fit w-full flex flex-col justify-center box-border mb-4 border-l-4 border-red-500 mx-1 p-2 gap-1"
@@ -112,7 +107,7 @@ const AttendancePage = () => {
               Add
             </button>
           </form>
-        )}
+        )} */}
         <div className="h-12 w-full text-sm md:text-xl border-2 flex items-center border-red-400 font-medium transition-all">
           <p className="w-[20%] text-center">Date</p>
           {groupData?.students.map((student) => (

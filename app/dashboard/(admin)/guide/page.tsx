@@ -8,7 +8,6 @@ import { useAdminInfoContext } from "@/context/AdminProfileContext";
 import { useGroupsContext } from "@/context/GroupsContext";
 
 import TableSlice from "@/app/components/TableSlice";
-import TableHead from "@/app/components/TableHead";
 import Loader from "@/app/components/Loader";
 
 const GuideDashboardPage = () => {
@@ -27,8 +26,6 @@ const GuideDashboardPage = () => {
           division: div,
         },
       });
-
-      // toast.success(data.message);
 
       setGroups(data.groups);
 
@@ -60,8 +57,7 @@ const GuideDashboardPage = () => {
           <h1 className="relative text-4xl font-semibold flex items-center justify-between mt-2 mb-4 px-1 text-red-500">
             Group Reports
           </h1>
-          <TableHead role={"Guide"} />
-          <main className="h-[740px] w-full overflow-y-auto lg:border-2 text-sm md:text-base lg:text-lg">
+          <main className="h-[760px] w-full text-sm md:text-base lg:text-lg overflow-y-auto">
             {groups?.map((group) =>
               group.records.map((record) => {
                 return (
@@ -74,11 +70,13 @@ const GuideDashboardPage = () => {
                     role={"Guide"}
                     id={record._id}
                     report={record.report}
+                    attendance={record.attendance}
+                    students={group.students}
                     guideSign={record.guideSign}
                     coordiantorSign={record.coordinatorSign}
                     hodSign={record.hodSign}
                     createdAt={record.createdAt}
-                    attendance={record.attendance}
+                    remark={record.remark}
                   />
                 );
               })

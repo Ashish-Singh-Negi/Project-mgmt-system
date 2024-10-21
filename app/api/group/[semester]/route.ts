@@ -108,7 +108,6 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
       branch,
       semester,
       division,
-      groupNo,
     })
       .lean()
       .exec();
@@ -140,10 +139,10 @@ export async function GET(req: NextRequest, { params: { semester } }: Props) {
         return NextResponse.json(
           {
             success: false,
-            message: `Group ${groupNo} not found`,
+            message: `unauthorized`,
           },
           {
-            status: 404,
+            status: 403,
           }
         );
 

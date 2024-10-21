@@ -2,12 +2,13 @@
 
 import React, { FormEvent, useEffect, useState } from "react";
 
-import CheckBtn from "./components/Checkbtn";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 import { useStudentInfoContext } from "@/context/StudentProfileContext";
 import { useGroupContext } from "@/context/GroupContext";
+
+import AttendanceBtn from "../../../components/AttendanceBtn";
 
 const NewReportPage = () => {
   const [date, setDate] = useState("");
@@ -30,8 +31,6 @@ const NewReportPage = () => {
         }
       });
     });
-
-    console.log(attendanceIs);
 
     try {
       const { data } = await axios.post(
@@ -85,10 +84,13 @@ const NewReportPage = () => {
         <p className="text-2xl font-medium">Date : {date} </p>
         <div className="h-fit w-full flex flex-col gap-1 md:flex-row md:items-center md:gap-4">
           {groupData?.students.map((student) => (
-            <CheckBtn
+            <AttendanceBtn
               key={`name-${student.username}`}
               name={student.username}
               setAttendance={setAttendance}
+              size="h-5 w-5"
+              textSize="text-xl"
+              isCheck={false}
             />
           ))}
         </div>

@@ -4,6 +4,7 @@ const RecordSchema = new Schema(
   {
     report: String,
     attendance: [String],
+    remark: String,
     guideSign: Boolean,
     coordinatorSign: Boolean,
     hodSign: Boolean,

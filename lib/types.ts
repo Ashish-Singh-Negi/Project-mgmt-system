@@ -15,6 +15,7 @@ export type Record = {
   coordinatorSign: boolean;
   hodSign: boolean;
   createdAt: string;
+  remark: string;
 };
 
 export type Group = {

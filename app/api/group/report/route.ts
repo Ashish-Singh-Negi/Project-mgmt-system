@@ -103,11 +103,11 @@ export async function POST(req: NextRequest) {
     });
 
     // Update student attendance
-    group.students.forEach((student: Student) => {
-      if (attendance.includes(student.username)) {
-        student.attendance += 1;
-      }
-    });
+    // group.students.forEach((student: Student) => {
+    //   if (attendance.includes(student.username)) {
+    //     student.attendance += 1;
+    //   }
+    // });
 
     await group.save();
 

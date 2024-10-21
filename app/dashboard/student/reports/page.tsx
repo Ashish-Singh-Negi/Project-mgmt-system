@@ -12,9 +12,13 @@ import { useGroupContext } from "@/context/GroupContext";
 import TableSlice from "@/app/components/TableSlice";
 import Loader from "@/app/components/Loader";
 
+import { FaExchangeAlt } from "react-icons/fa";
+
 const GroupReportsPage = () => {
   const { studentInfo } = useStudentInfoContext();
   const { groupData, setGroupData } = useGroupContext();
+
+  const [toggleReport, setToggleReport] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -58,7 +62,13 @@ const GroupReportsPage = () => {
       </h1>
       <div className="h-12 w-full border-2 flex items-center border-red-400 font-medium">
         <p className="w-[15%] text-center">Date</p>
-        <p className="w-[40%] text-center">Report</p>
+        <div
+          onClick={() => setToggleReport(!toggleReport)}
+          className="w-[40%] text-center cursor-pointer transition-all"
+        >
+          {toggleReport ? "Remark" : "Report"}
+          <FaExchangeAlt className="inline h-4 w-4 ml-2" />
+        </div>
         <p className="w-[15%] text-center">Guide</p>
         <p className="w-[15%] text-center">Coor...</p>
         <p className="w-[15%] text-center">Hod</p>
@@ -70,6 +80,8 @@ const GroupReportsPage = () => {
               key={val.createdAt}
               createdAt={val.createdAt}
               report={val.report}
+              remark={val.remark}
+              toggleReport={toggleReport}
               role={null}
               guideSign={val.guideSign}
               coordiantorSign={val.coordinatorSign}

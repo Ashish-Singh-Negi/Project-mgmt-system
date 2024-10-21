@@ -41,9 +41,7 @@ const GroupsInfoPage = () => {
       console.log(data);
 
       toast.success(data.message);
-
-      setGroupNos((prev) => [...prev, number]);
-
+      
       return data.success;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -63,7 +61,7 @@ const GroupsInfoPage = () => {
       toast.error("Select Semester");
       return;
     }
-    
+
     if (!division) {
       toast.error("Select Division");
       return;
@@ -163,6 +161,7 @@ const GroupsInfoPage = () => {
                       inputType={"number"}
                       inputPlaceholder={"group no."}
                       checkGroupNumberExistOrNot={checkGroupNumberExistOrNot}
+                      setGroupNo={setGroupNos}
                     />
                   ))}
                   <button

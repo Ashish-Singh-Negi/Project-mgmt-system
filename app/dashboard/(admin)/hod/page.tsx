@@ -30,7 +30,6 @@ const HodDashboardPage = () => {
         },
       });
 
-      // toast.success(data.message);
       setGroups(data.groups);
 
       setLoading(false);
@@ -79,8 +78,8 @@ const HodDashboardPage = () => {
               </div>
             </div>
           </header>
-          <TableHead role={currentRole!} />
-          <main className="h-[740px] w-full text-sm md:text-base lg:text-xl overflow-y-auto lg:border-2">
+          {currentRole !== "Guide" && <TableHead role={currentRole!} />}
+          <main className="h-[760px] w-full text-sm md:text-base lg:text-lg overflow-y-auto">
             {groups?.map((group) =>
               group.records.map((record) => {
                 return (
@@ -93,6 +92,8 @@ const HodDashboardPage = () => {
                     role={currentRole}
                     id={record._id}
                     report={record.report}
+                    remark={record.remark}
+                    students={group.students}
                     attendance={record.attendance}
                     guideSign={record.guideSign}
                     coordiantorSign={record.coordinatorSign}

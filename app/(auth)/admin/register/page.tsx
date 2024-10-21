@@ -1,11 +1,13 @@
 "use client";
 
-import InputFeild from "@/app/components/InputFeild";
-import Loader from "@/app/components/Loader";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import axios from "axios";
 import toast from "react-hot-toast";
+
+import Loader from "@/app/components/Loader";
+import InputFeild from "@/app/components/InputFeild";
 
 const TeacherRegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +16,7 @@ const TeacherRegisterPage = () => {
   const [branch, setBranch] = useState("");
   const [semester, setSemester] = useState("");
   const [division, setDivision] = useState("");
-  const [groupNo, setGroupNo] = useState<number[]>([]);
+  const [groupNos, setGroupNos] = useState<number[]>([]);
 
   const [groupNoCount, setGroupNoCount] = useState<number[]>([]);
 
@@ -36,8 +38,6 @@ const TeacherRegisterPage = () => {
       });
 
       toast.success(data.message);
-
-      setGroupNo((prev) => [...prev, number]);
 
       return data.success;
     } catch (error) {
@@ -64,7 +64,7 @@ const TeacherRegisterPage = () => {
         guideOf: {
           semester,
           division,
-          groupNo,
+          groupNo:groupNos,
         },
       });
 
@@ -166,10 +166,11 @@ const TeacherRegisterPage = () => {
           inputType={"number"}
           inputPlaceholder={"group no."}
           checkGroupNumberExistOrNot={checkGroupNumberExistOrNot}
+          setGroupNo={setGroupNos}
         />
       ))}
       <button
-        onClick={() => setGroupNoCount((prev) => [...prev, groupNo.length])}
+        onClick={() => setGroupNoCount((prev) => [...prev, groupNos.length])}
         type="button"
         className="h-10 w-72 md:w-[600px] bg-blue-400 hover:bg-blue-500 rounded-md active:scale-95 text-white transition-all"
       >
